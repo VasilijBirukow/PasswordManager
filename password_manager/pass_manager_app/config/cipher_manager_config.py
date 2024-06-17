@@ -10,7 +10,7 @@ def configurate_cipher_manager():
     a Config Error exception is thrown with the corresponding error message.
     """
     try:
-        key = read_file_by_path('../very_very_secret_key')
+        key = read_file_by_path('./very_very_secret_key')
         CipherManager.initialize(key)
     except ReadFileError as error:
         raise ConfigError(error.message)

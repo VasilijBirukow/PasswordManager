@@ -3,11 +3,39 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
+    container_name: db
     environment:
       POSTGRES_DB: "passwords_db"
       POSTGRES_USER: "pass_admin"
       POSTGRES_PASSWORD: "BqQBWxQa2-3tRse"
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - djangonetwork
+
+  web:
+    build: .
+    container_name: django
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/code
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_NAME="passwords_db"
+      - POSTGRES_USER="pass_admin"
+      - POSTGRES_PASSWORD="BqQBWxQa2-3tRse"
+    links:
+      - postgres:db
+    networks:
+      - djangonetwork
+
+networks:
+  djangonetwork:
+    driver: bridge
+
+volumes:
+  pgdata:
