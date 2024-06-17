@@ -7,7 +7,6 @@ def validate_service_name(service_name: str) -> list:
     if not service_name:
         errors.append("Service name cannot be empty")
         return errors
-    print(service_name)
     if not service_name.isalnum():
         errors.append("Service name should contains digits and letters only")
 
